@@ -30,6 +30,8 @@ use work.parameter.all;
 
 entity forty_gbe is
     generic (
+        -- number of 40gbe interfaces to instantiate
+        NUM_FORTY_GBES : INTEGER := 1;
     	-- mmcm parameters
         MULTIPLY : REAL    := 6.0;
         DIVIDE   : REAL    := 6.0;
@@ -42,7 +44,6 @@ entity forty_gbe is
         FABRIC_GATEWAY    : std_logic_vector( 7 downto 0);
         FABRIC_ENABLE     : std_logic;
         TTL               : std_logic_vector( 7 downto 0);
-        PORT              : std_logic_vector( 1 downto 0);
         PROMISC_MODE      : integer;
         RX_CRC_CHK_ENABLE : integer := 0);
     port(
@@ -263,25 +264,83 @@ entity forty_gbe is
         EMCCLK_FIX : out std_logic;
         GND        : out std_logic_vector(15 downto 0);
         
-        forty_gbe_rst             : in  std_logic;
-        forty_gbe_tx_valid        : in  std_logic_vector(3 downto 0);
-        forty_gbe_tx_end_of_frame : in  std_logic;
-        forty_gbe_tx_data         : in  std_logic_vector(255 downto 0);
-        forty_gbe_tx_dest_ip      : in  std_logic_vector(31 downto 0);
-        forty_gbe_tx_dest_port    : in  std_logic_vector(15 downto 0);
-        forty_gbe_tx_overflow     : out std_logic;
-        forty_gbe_tx_afull        : out std_logic;
-        forty_gbe_rx_valid        : out std_logic_vector(3 downto 0);
-        forty_gbe_rx_end_of_frame : out std_logic;
-        forty_gbe_rx_data         : out std_logic_vector(255 downto 0);
-        forty_gbe_rx_source_ip    : out std_logic_vector(31 downto 0);
-        forty_gbe_rx_source_port  : out std_logic_vector(15 downto 0);
-        forty_gbe_rx_dest_ip      : out std_logic_vector(31 downto 0);
-        forty_gbe_rx_dest_port    : out std_logic_vector(15 downto 0);
-        forty_gbe_rx_bad_frame    : out std_logic;
-        forty_gbe_rx_overrun      : out std_logic;
-        forty_gbe_rx_overrun_ack  : in  std_logic;
-        forty_gbe_rx_ack          : in  std_logic;
+        forty_gbe_rst                  : in  std_logic;
+
+        forty_gbe_tx_valid_int0        : in  std_logic_vector(3 downto 0);
+        forty_gbe_tx_end_of_frame_int0 : in  std_logic;
+        forty_gbe_tx_data_int0         : in  std_logic_vector(255 downto 0);
+        forty_gbe_tx_dest_ip_int0      : in  std_logic_vector(31 downto 0);
+        forty_gbe_tx_dest_port_int0    : in  std_logic_vector(15 downto 0);
+        forty_gbe_tx_overflow_int0     : out std_logic;
+        forty_gbe_tx_afull_int0        : out std_logic;
+        forty_gbe_rx_valid_int0        : out std_logic_vector(3 downto 0);
+        forty_gbe_rx_end_of_frame_int0 : out std_logic;
+        forty_gbe_rx_data_int0         : out std_logic_vector(255 downto 0);
+        forty_gbe_rx_source_ip_int0    : out std_logic_vector(31 downto 0);
+        forty_gbe_rx_source_port_int0  : out std_logic_vector(15 downto 0);
+        forty_gbe_rx_dest_ip_int0      : out std_logic_vector(31 downto 0);
+        forty_gbe_rx_dest_port_int0    : out std_logic_vector(15 downto 0);
+        forty_gbe_rx_bad_frame_int0    : out std_logic;
+        forty_gbe_rx_overrun_int0      : out std_logic;
+        forty_gbe_rx_overrun_ack_int0  : in  std_logic;
+        forty_gbe_rx_ack_int0          : in  std_logic;
+
+        forty_gbe_tx_valid_int1        : in  std_logic_vector(3 downto 0);
+        forty_gbe_tx_end_of_frame_int1 : in  std_logic;
+        forty_gbe_tx_data_int1         : in  std_logic_vector(255 downto 0);
+        forty_gbe_tx_dest_ip_int1      : in  std_logic_vector(31 downto 0);
+        forty_gbe_tx_dest_port_int1    : in  std_logic_vector(15 downto 0);
+        forty_gbe_tx_overflow_int1     : out std_logic;
+        forty_gbe_tx_afull_int1        : out std_logic;
+        forty_gbe_rx_valid_int1        : out std_logic_vector(3 downto 0);
+        forty_gbe_rx_end_of_frame_int1 : out std_logic;
+        forty_gbe_rx_data_int1         : out std_logic_vector(255 downto 0);
+        forty_gbe_rx_source_ip_int1    : out std_logic_vector(31 downto 0);
+        forty_gbe_rx_source_port_int1  : out std_logic_vector(15 downto 0);
+        forty_gbe_rx_dest_ip_int1      : out std_logic_vector(31 downto 0);
+        forty_gbe_rx_dest_port_int1    : out std_logic_vector(15 downto 0);
+        forty_gbe_rx_bad_frame_int1    : out std_logic;
+        forty_gbe_rx_overrun_int1      : out std_logic;
+        forty_gbe_rx_overrun_ack_int1  : in  std_logic;
+        forty_gbe_rx_ack_int1          : in  std_logic;
+
+        forty_gbe_tx_valid_int2        : in  std_logic_vector(3 downto 0);
+        forty_gbe_tx_end_of_frame_int2 : in  std_logic;
+        forty_gbe_tx_data_int2         : in  std_logic_vector(255 downto 0);
+        forty_gbe_tx_dest_ip_int2      : in  std_logic_vector(31 downto 0);
+        forty_gbe_tx_dest_port_int2    : in  std_logic_vector(15 downto 0);
+        forty_gbe_tx_overflow_int2     : out std_logic;
+        forty_gbe_tx_afull_int2        : out std_logic;
+        forty_gbe_rx_valid_int2        : out std_logic_vector(3 downto 0);
+        forty_gbe_rx_end_of_frame_int2 : out std_logic;
+        forty_gbe_rx_data_int2         : out std_logic_vector(255 downto 0);
+        forty_gbe_rx_source_ip_int2    : out std_logic_vector(31 downto 0);
+        forty_gbe_rx_source_port_int2  : out std_logic_vector(15 downto 0);
+        forty_gbe_rx_dest_ip_int2      : out std_logic_vector(31 downto 0);
+        forty_gbe_rx_dest_port_int2    : out std_logic_vector(15 downto 0);
+        forty_gbe_rx_bad_frame_int2    : out std_logic;
+        forty_gbe_rx_overrun_int2      : out std_logic;
+        forty_gbe_rx_overrun_ack_int2  : in  std_logic;
+        forty_gbe_rx_ack_int2          : in  std_logic;
+
+        forty_gbe_tx_valid_int3        : in  std_logic_vector(3 downto 0);
+        forty_gbe_tx_end_of_frame_int3 : in  std_logic;
+        forty_gbe_tx_data_int3         : in  std_logic_vector(255 downto 0);
+        forty_gbe_tx_dest_ip_int3      : in  std_logic_vector(31 downto 0);
+        forty_gbe_tx_dest_port_int3    : in  std_logic_vector(15 downto 0);
+        forty_gbe_tx_overflow_int3     : out std_logic;
+        forty_gbe_tx_afull_int3        : out std_logic;
+        forty_gbe_rx_valid_int3        : out std_logic_vector(3 downto 0);
+        forty_gbe_rx_end_of_frame_int3 : out std_logic;
+        forty_gbe_rx_data_int3         : out std_logic_vector(255 downto 0);
+        forty_gbe_rx_source_ip_int3    : out std_logic_vector(31 downto 0);
+        forty_gbe_rx_source_port_int3  : out std_logic_vector(15 downto 0);
+        forty_gbe_rx_dest_ip_int3      : out std_logic_vector(31 downto 0);
+        forty_gbe_rx_dest_port_int3    : out std_logic_vector(15 downto 0);
+        forty_gbe_rx_bad_frame_int3    : out std_logic;
+        forty_gbe_rx_overrun_int3      : out std_logic;
+        forty_gbe_rx_overrun_ack_int3  : in  std_logic;
+        forty_gbe_rx_ack_int3          : in  std_logic;
 
         forty_gbe_led_tx : out std_logic;
         forty_gbe_led_rx : out std_logic;
@@ -289,7 +348,7 @@ entity forty_gbe is
 
         --DSP Wishbone Arbiter Interface
         WB_SLV_CLK_I_top : out std_logic;
-        WB_SLV_RST_I_top:  out std_logic;
+        WB_SLV_RST_I_top : out std_logic;
         WB_SLV_DAT_I_top : out std_logic_vector(31 downto 0);--ST_WB_DATA;
         WB_SLV_DAT_O_top : in  std_logic_vector(31 downto 0);--ST_WB_DATA;
         WB_SLV_ACK_O_top : in  std_logic;
@@ -400,29 +459,6 @@ architecture arch_forty_gbe of forty_gbe is
         SEL_I : in std_logic_vector(3 downto 0);
         STB_I : in std_logic;
         WE_I  : in std_logic;
-        gbe_app_clk             : in std_logic;
-        gbe_rx_valid            : in std_logic;
-        gbe_rx_end_of_frame     : in std_logic;
-        gbe_rx_data             : in std_logic_vector(63 downto 0);
-        gbe_rx_source_ip        : in std_logic_vector(31 downto 0);
-        gbe_rx_source_port      : in std_logic_vector(15 downto 0);
-        gbe_rx_bad_frame        : in std_logic;
-        gbe_rx_overrun          : in std_logic;
-        gbe_rx_overrun_ack      : out std_logic;
-        gbe_rx_ack              : out std_logic;
-        --AI Start: Add fortygbe interface for configuration
-        fgbe_config_en           : in std_logic;  -- if '1' SDRAM/Flash configuration is done via forty GbE else via 1 GbE
-        fgbe_app_clk             : in std_logic;
-        fgbe_rx_valid            : in std_logic_vector(3 downto 0);
-        fgbe_rx_end_of_frame     : in std_logic;
-        fgbe_rx_data             : in std_logic_vector(255 downto 0);
-        fgbe_rx_source_ip        : in std_logic_vector(31 downto 0);
-        fgbe_rx_source_port      : in std_logic_vector(15 downto 0);
-        fgbe_rx_bad_frame        : in std_logic;
-        fgbe_rx_overrun          : in std_logic;
-        fgbe_rx_overrun_ack      : out std_logic;
-        fgbe_rx_ack              : out std_logic;
-        --AI End: Add fortygbe interface for configuration         
         fpga_emcclk     : in std_logic;
         fpga_emcclk2    : in std_logic;
         flash_dq_in     : in std_logic_vector(15 downto 0);
@@ -1076,24 +1112,82 @@ architecture arch_forty_gbe of forty_gbe is
     signal host_reset_d2 : std_logic;
     signal host_reset_d3 : std_logic;     
 
-    signal xlgmii_tx_valid        : std_logic_vector(3 downto 0);
-    signal xlgmii_tx_end_of_frame : std_logic;
-    signal xlgmii_tx_data         : std_logic_vector(255 downto 0);
-    signal xlgmii_tx_dest_ip      : std_logic_vector(31 downto 0);
-    signal xlgmii_tx_dest_port    : std_logic_vector(15 downto 0);
-    signal xlgmii_tx_overflow     : std_logic;
-    signal xlgmii_tx_afull        : std_logic;
-    signal xlgmii_rx_valid        : std_logic_vector(3 downto 0);
-    signal xlgmii_rx_end_of_frame : std_logic;
-    signal xlgmii_rx_data         : std_logic_vector(255 downto 0);
-    signal xlgmii_rx_source_ip    : std_logic_vector(31 downto 0);
-    signal xlgmii_rx_source_port  : std_logic_vector(15 downto 0);
-    signal xlgmii_rx_dest_ip      : std_logic_vector(31 downto 0);
-    signal xlgmii_rx_dest_port    : std_logic_vector(15 downto 0);
-    signal xlgmii_rx_bad_frame    : std_logic;
-    signal xlgmii_rx_overrun      : std_logic;
-    signal xlgmii_rx_overrun_ack  : std_logic;
-    signal xlgmii_rx_ack          : std_logic;
+    signal xlgmii_tx_valid_int0        : std_logic_vector(3 downto 0);
+    signal xlgmii_tx_end_of_frame_int0 : std_logic;
+    signal xlgmii_tx_data_int0         : std_logic_vector(255 downto 0);
+    signal xlgmii_tx_dest_ip_int0      : std_logic_vector(31 downto 0);
+    signal xlgmii_tx_dest_port_int0    : std_logic_vector(15 downto 0);
+    signal xlgmii_tx_overflow_int0     : std_logic;
+    signal xlgmii_tx_afull_int0        : std_logic;
+    signal xlgmii_rx_valid_int0        : std_logic_vector(3 downto 0);
+    signal xlgmii_rx_end_of_frame_int0 : std_logic;
+    signal xlgmii_rx_data_int0         : std_logic_vector(255 downto 0);
+    signal xlgmii_rx_source_ip_int0    : std_logic_vector(31 downto 0);
+    signal xlgmii_rx_source_port_int0  : std_logic_vector(15 downto 0);
+    signal xlgmii_rx_dest_ip_int0      : std_logic_vector(31 downto 0);
+    signal xlgmii_rx_dest_port_int0    : std_logic_vector(15 downto 0);
+    signal xlgmii_rx_bad_frame_int0    : std_logic;
+    signal xlgmii_rx_overrun_int0      : std_logic;
+    signal xlgmii_rx_overrun_ack_int0  : std_logic;
+    signal xlgmii_rx_ack_int0          : std_logic;
+    
+    signal xlgmii_tx_valid_int1        : std_logic_vector(3 downto 0);
+    signal xlgmii_tx_end_of_frame_int1 : std_logic;
+    signal xlgmii_tx_data_int1         : std_logic_vector(255 downto 0);
+    signal xlgmii_tx_dest_ip_int1      : std_logic_vector(31 downto 0);
+    signal xlgmii_tx_dest_port_int1    : std_logic_vector(15 downto 0);
+    signal xlgmii_tx_overflow_int1     : std_logic;
+    signal xlgmii_tx_afull_int1        : std_logic;
+    signal xlgmii_rx_valid_int1        : std_logic_vector(3 downto 0);
+    signal xlgmii_rx_end_of_frame_int1 : std_logic;
+    signal xlgmii_rx_data_int1         : std_logic_vector(255 downto 0);
+    signal xlgmii_rx_source_ip_int1    : std_logic_vector(31 downto 0);
+    signal xlgmii_rx_source_port_int1  : std_logic_vector(15 downto 0);
+    signal xlgmii_rx_dest_ip_int1      : std_logic_vector(31 downto 0);
+    signal xlgmii_rx_dest_port_int1    : std_logic_vector(15 downto 0);
+    signal xlgmii_rx_bad_frame_int1    : std_logic;
+    signal xlgmii_rx_overrun_int1      : std_logic;
+    signal xlgmii_rx_overrun_ack_int1  : std_logic;
+    signal xlgmii_rx_ack_int1          : std_logic;
+    
+    
+    signal xlgmii_tx_valid_int2        : std_logic_vector(3 downto 0);
+    signal xlgmii_tx_end_of_frame_int2 : std_logic;
+    signal xlgmii_tx_data_int2         : std_logic_vector(255 downto 0);
+    signal xlgmii_tx_dest_ip_int2      : std_logic_vector(31 downto 0);
+    signal xlgmii_tx_dest_port_int2    : std_logic_vector(15 downto 0);
+    signal xlgmii_tx_overflow_int2     : std_logic;
+    signal xlgmii_tx_afull_int2        : std_logic;
+    signal xlgmii_rx_valid_int2        : std_logic_vector(3 downto 0);
+    signal xlgmii_rx_end_of_frame_int2 : std_logic;
+    signal xlgmii_rx_data_int2         : std_logic_vector(255 downto 0);
+    signal xlgmii_rx_source_ip_int2    : std_logic_vector(31 downto 0);
+    signal xlgmii_rx_source_port_int2  : std_logic_vector(15 downto 0);
+    signal xlgmii_rx_dest_ip_int2      : std_logic_vector(31 downto 0);
+    signal xlgmii_rx_dest_port_int2    : std_logic_vector(15 downto 0);
+    signal xlgmii_rx_bad_frame_int2    : std_logic;
+    signal xlgmii_rx_overrun_int2      : std_logic;
+    signal xlgmii_rx_overrun_ack_int2  : std_logic;
+    signal xlgmii_rx_ack_int2          : std_logic;
+    
+    signal xlgmii_tx_valid_int3        : std_logic_vector(3 downto 0);
+    signal xlgmii_tx_end_of_frame_int3 : std_logic;
+    signal xlgmii_tx_data_int3         : std_logic_vector(255 downto 0);
+    signal xlgmii_tx_dest_ip_int3      : std_logic_vector(31 downto 0);
+    signal xlgmii_tx_dest_port_int3    : std_logic_vector(15 downto 0);
+    signal xlgmii_tx_overflow_int3     : std_logic;
+    signal xlgmii_tx_afull_int3        : std_logic;
+    signal xlgmii_rx_valid_int3        : std_logic_vector(3 downto 0);
+    signal xlgmii_rx_end_of_frame_int3 : std_logic;
+    signal xlgmii_rx_data_int3         : std_logic_vector(255 downto 0);
+    signal xlgmii_rx_source_ip_int3    : std_logic_vector(31 downto 0);
+    signal xlgmii_rx_source_port_int3  : std_logic_vector(15 downto 0);
+    signal xlgmii_rx_dest_ip_int3      : std_logic_vector(31 downto 0);
+    signal xlgmii_rx_dest_port_int3    : std_logic_vector(15 downto 0);
+    signal xlgmii_rx_bad_frame_int3    : std_logic;
+    signal xlgmii_rx_overrun_int3      : std_logic;
+    signal xlgmii_rx_overrun_ack_int3  : std_logic;
+    signal xlgmii_rx_ack_int3          : std_logic;
 
     signal led_rx : std_logic;
     signal led_tx : std_logic;
@@ -1408,11 +1502,29 @@ begin
     EMCCLK_FIX <= EMCCLK;
 
     -- Switch based on PORT ?
-    xlgmii_tx_valid        <= forty_gbe_tx_valid;
-    xlgmii_tx_end_of_frame <= forty_gbe_tx_end_of_frame;
-    xlgmii_tx_data         <= forty_gbe_tx_data(63 downto 0) & forty_gbe_tx_data(127 downto 64) & forty_gbe_tx_data(191 downto 128) &  forty_gbe_tx_data(255 downto 192);
-    xlgmii_tx_dest_ip      <= forty_gbe_tx_dest_ip;
-    xlgmii_tx_dest_port    <= forty_gbe_tx_dest_port;
+    xlgmii_tx_valid_int0        <= forty_gbe_tx_valid_int0;
+    xlgmii_tx_end_of_frame_int0 <= forty_gbe_tx_end_of_frame_int0;
+    xlgmii_tx_data_int0         <= forty_gbe_tx_data_int0(63 downto 0) & forty_gbe_tx_data_int0(127 downto 64) & forty_gbe_tx_data_int0(191 downto 128) &  forty_gbe_tx_data_int0(255 downto 192);
+    xlgmii_tx_dest_ip_int0      <= forty_gbe_tx_dest_ip_int0;
+    xlgmii_tx_dest_port_int0    <= forty_gbe_tx_dest_port_int0;
+
+    xlgmii_tx_valid_int1        <= forty_gbe_tx_valid_int1;
+    xlgmii_tx_end_of_frame_int1 <= forty_gbe_tx_end_of_frame_int1;
+    xlgmii_tx_data_int1         <= forty_gbe_tx_data_int1(63 downto 0) & forty_gbe_tx_data_int1(127 downto 64) & forty_gbe_tx_data_int1(191 downto 128) &  forty_gbe_tx_data_int1(255 downto 192);
+    xlgmii_tx_dest_ip_int1      <= forty_gbe_tx_dest_ip_int1;
+    xlgmii_tx_dest_port_int1    <= forty_gbe_tx_dest_port_int1;
+    
+    xlgmii_tx_valid_int2        <= forty_gbe_tx_valid_int2;
+    xlgmii_tx_end_of_frame_int2 <= forty_gbe_tx_end_of_frame_int2;
+    xlgmii_tx_data_int2         <= forty_gbe_tx_data_int2(63 downto 0) & forty_gbe_tx_data_int2(127 downto 64) & forty_gbe_tx_data_int2(191 downto 128) &  forty_gbe_tx_data_int2(255 downto 192);
+    xlgmii_tx_dest_ip_int2      <= forty_gbe_tx_dest_ip_int2;
+    xlgmii_tx_dest_port_int2    <= forty_gbe_tx_dest_port_int2;
+
+    xlgmii_tx_valid_int3        <= forty_gbe_tx_valid_int3;
+    xlgmii_tx_end_of_frame_int3 <= forty_gbe_tx_end_of_frame_int3;
+    xlgmii_tx_data_int3         <= forty_gbe_tx_data_int3(63 downto 0) & forty_gbe_tx_data_int3(127 downto 64) & forty_gbe_tx_data_int3(191 downto 128) &  forty_gbe_tx_data_int3(255 downto 192);
+    xlgmii_tx_dest_ip_int3      <= forty_gbe_tx_dest_ip_int3;
+    xlgmii_tx_dest_port_int3    <= forty_gbe_tx_dest_port_int3;
     --xlgmii_rx_overrun_ack  <= forty_gbe_rx_overrun_ack;
     --xlgmii_rx_ack          <= forty_gbe_rx_ack;
     forty_gbe_led_rx <= xlgmii_rxled(0)(1); -- xlgmii_rxled(0)(1) is activity, xlgmii_rxled(0)(0) is phy rx up
@@ -1421,19 +1533,58 @@ begin
     -- Switch based on PORT
     forty_gbe_led_up <= phy_rx_up(0);
 
-    forty_gbe_tx_overflow     <= xlgmii_tx_overflow;
-    forty_gbe_tx_afull        <= xlgmii_tx_afull;
-    forty_gbe_rx_valid        <= xlgmii_rx_valid;
-    forty_gbe_rx_end_of_frame <= xlgmii_rx_end_of_frame;
+    forty_gbe_tx_overflow_int0     <= xlgmii_tx_overflow_int0;
+    forty_gbe_tx_afull_int0        <= xlgmii_tx_afull_int0;
+    forty_gbe_rx_valid_int0        <= xlgmii_rx_valid_int0;
+    forty_gbe_rx_end_of_frame_int0 <= xlgmii_rx_end_of_frame_int0;
     --AI: Rx Data incorrectly mapped and needs to be mapped correctly such that forty_gbe_rx_data[255:0] maps correctly to 40GbE MAC rx data[255:0]
-    --forty_gbe_rx_data         <= xlgmii_rx_data;
-    forty_gbe_rx_data(255 downto 0) <= xlgmii_rx_data(63 downto 0) & xlgmii_rx_data(127 downto 64) & xlgmii_rx_data(191 downto 128) &  xlgmii_rx_data(255 downto 192);    
-    forty_gbe_rx_source_ip    <= xlgmii_rx_source_ip;
-    forty_gbe_rx_source_port  <= xlgmii_rx_source_port;
-    forty_gbe_rx_dest_ip      <= xlgmii_rx_dest_ip;
-    forty_gbe_rx_dest_port    <= xlgmii_rx_dest_port;
-    forty_gbe_rx_bad_frame    <= xlgmii_rx_bad_frame;
-    forty_gbe_rx_overrun      <= xlgmii_rx_overrun;
+    forty_gbe_rx_data_int0(255 downto 0) <= xlgmii_rx_data_int0(63 downto 0) & xlgmii_rx_data_int0(127 downto 64) & xlgmii_rx_data_int0(191 downto 128) &  xlgmii_rx_data_int0(255 downto 192);    
+    forty_gbe_rx_source_ip_int0    <= xlgmii_rx_source_ip_int0;
+    forty_gbe_rx_source_port_int0  <= xlgmii_rx_source_port_int0;
+    forty_gbe_rx_dest_ip_int0      <= xlgmii_rx_dest_ip_int0;
+    forty_gbe_rx_dest_port_int0    <= xlgmii_rx_dest_port_int0;
+    forty_gbe_rx_bad_frame_int0    <= xlgmii_rx_bad_frame_int0;
+    forty_gbe_rx_overrun_int0      <= xlgmii_rx_overrun_int0;
+
+    forty_gbe_tx_overflow_int1     <= xlgmii_tx_overflow_int1;
+    forty_gbe_tx_afull_int1        <= xlgmii_tx_afull_int1;
+    forty_gbe_rx_valid_int1        <= xlgmii_rx_valid_int1;
+    forty_gbe_rx_end_of_frame_int1 <= xlgmii_rx_end_of_frame_int1;
+    --AI: Rx Data incorrectly mapped and needs to be mapped correctly such that forty_gbe_rx_data[255:0] maps correctly to 40GbE MAC rx data[255:0]
+    forty_gbe_rx_data_int1(255 downto 0) <= xlgmii_rx_data_int1(63 downto 0) & xlgmii_rx_data_int1(127 downto 64) & xlgmii_rx_data_int1(191 downto 128) &  xlgmii_rx_data_int1(255 downto 192);    
+    forty_gbe_rx_source_ip_int1    <= xlgmii_rx_source_ip_int1;
+    forty_gbe_rx_source_port_int1  <= xlgmii_rx_source_port_int1;
+    forty_gbe_rx_dest_ip_int1      <= xlgmii_rx_dest_ip_int1;
+    forty_gbe_rx_dest_port_int1    <= xlgmii_rx_dest_port_int1;
+    forty_gbe_rx_bad_frame_int1    <= xlgmii_rx_bad_frame_int1;
+    forty_gbe_rx_overrun_int1      <= xlgmii_rx_overrun_int1;
+
+    forty_gbe_tx_overflow_int2     <= xlgmii_tx_overflow_int2;
+    forty_gbe_tx_afull_int2        <= xlgmii_tx_afull_int2;
+    forty_gbe_rx_valid_int2        <= xlgmii_rx_valid_int2;
+    forty_gbe_rx_end_of_frame_int2 <= xlgmii_rx_end_of_frame_int2;
+    --AI: Rx Data incorrectly mapped and needs to be mapped correctly such that forty_gbe_rx_data[255:0] maps correctly to 40GbE MAC rx data[255:0]
+    forty_gbe_rx_data_int2(255 downto 0) <= xlgmii_rx_data_int2(63 downto 0) & xlgmii_rx_data_int2(127 downto 64) & xlgmii_rx_data_int2(191 downto 128) &  xlgmii_rx_data_int2(255 downto 192);    
+    forty_gbe_rx_source_ip_int2    <= xlgmii_rx_source_ip_int2;
+    forty_gbe_rx_source_port_int2  <= xlgmii_rx_source_port_int2;
+    forty_gbe_rx_dest_ip_int2      <= xlgmii_rx_dest_ip_int2;
+    forty_gbe_rx_dest_port_int2    <= xlgmii_rx_dest_port_int2;
+    forty_gbe_rx_bad_frame_int2    <= xlgmii_rx_bad_frame_int2;
+    forty_gbe_rx_overrun_int2      <= xlgmii_rx_overrun_int2;
+
+    forty_gbe_tx_overflow_int3     <= xlgmii_tx_overflow_int3;
+    forty_gbe_tx_afull_int3        <= xlgmii_tx_afull_int3;
+    forty_gbe_rx_valid_int3        <= xlgmii_rx_valid_int3;
+    forty_gbe_rx_end_of_frame_int3 <= xlgmii_rx_end_of_frame_int3;
+    --AI: Rx Data incorrectly mapped and needs to be mapped correctly such that forty_gbe_rx_data[255:0] maps correctly to 40GbE MAC rx data[255:0]
+    forty_gbe_rx_data_int3(255 downto 0) <= xlgmii_rx_data_int3(63 downto 0) & xlgmii_rx_data_int3(127 downto 64) & xlgmii_rx_data_int3(191 downto 128) &  xlgmii_rx_data_int3(255 downto 192);    
+    forty_gbe_rx_source_ip_int3    <= xlgmii_rx_source_ip_int3;
+    forty_gbe_rx_source_port_int3  <= xlgmii_rx_source_port_int3;
+    forty_gbe_rx_dest_ip_int3      <= xlgmii_rx_dest_ip_int3;
+    forty_gbe_rx_dest_port_int3    <= xlgmii_rx_dest_port_int3;
+    forty_gbe_rx_bad_frame_int3    <= xlgmii_rx_bad_frame_int3;
+    forty_gbe_rx_overrun_int3      <= xlgmii_rx_overrun_int3;
+
 
     -- These signals are not used but kept in for completeness sake.
     -- They are for the com express, which is not populated on the SKA boards
@@ -2109,29 +2260,6 @@ begin
         SEL_I => WB_SLV_SEL_I(2),
         STB_I => WB_SLV_STB_I(2),
         WE_I  => WB_SLV_WE_I(2),
-        gbe_app_clk             => sys_clk,
-        gbe_rx_valid            => gmii_rx_valid_flash_sdram_controller,
-        gbe_rx_end_of_frame     => gmii_rx_end_of_frame_flash_sdram_controller,
-        gbe_rx_data             => gmii_rx_data,
-        gbe_rx_source_ip        => gmii_rx_source_ip,
-        gbe_rx_source_port      => gmii_rx_source_port,
-        gbe_rx_bad_frame        => gmii_rx_bad_frame,
-        gbe_rx_overrun          => gmii_rx_overrun,
-        gbe_rx_overrun_ack      => gmii_rx_overrun_ack_flash_sdram_controller,
-        gbe_rx_ack              => gmii_rx_ack_flash_sdram_controller,
-        --AI Start: Added fortygbe interface for configuration
-        fgbe_config_en          => fgbe_config_en,  -- if '1' SDRAM/Flash configuration is done via forty GbE else via 1 GbE
-        fgbe_app_clk            => sys_clk,
-        fgbe_rx_valid           => xlgmii_rx_valid_flash_sdram_controller(0), --xlgmii_rx_valid(0),
-        fgbe_rx_end_of_frame    => xlgmii_rx_end_of_frame_flash_sdram_controller(0),--xlgmii_rx_end_of_frame(0),
-        fgbe_rx_data            => xlgmii_rx_data,
-        fgbe_rx_source_ip       => xlgmii_rx_source_ip,
-        fgbe_rx_source_port     => xlgmii_rx_source_port,
-        fgbe_rx_bad_frame       => xlgmii_rx_bad_frame,
-        fgbe_rx_overrun         => xlgmii_rx_overrun,
-        fgbe_rx_overrun_ack     => xlgmii_rx_overrun_ack_flash_sdram_controller(0),--xlgmii_rx_overrun_ack(0),
-        fgbe_rx_ack             => xlgmii_rx_ack_flash_sdram_controller(0),--xlgmii_rx_ack(0),
-        --AI End: Added fortygbe interface for configuration
         fpga_emcclk     => '0',
         fpga_emcclk2    => '0',
         flash_dq_in     => FLASH_DQ,
@@ -2423,41 +2551,6 @@ begin
         end if;
     end process;
 
-    --AI Start: Added fortygbe config interface
-    -- MUX BETWEEN FLASH_SDRAM CONTROLLER AND 1GbE Data Streaming
-    gmii_rx_valid_flash_sdram_controller <= gmii_rx_valid when (select_one_gbe_data_sel  = '0') else '0';
-    gmii_rx_end_of_frame_flash_sdram_controller <= gmii_rx_end_of_frame when (select_one_gbe_data_sel  = '0') else '0';
-
-    --gmii_rx_valid_ramp_checker <= gmii_rx_valid when (select_one_gbe_data_sel  = '1') else '0';
-    --gmii_rx_end_of_frame_ramp_checker <= gmii_rx_end_of_frame when (select_one_gbe_data_sel  = '1') else '0';
-
-    gmii_rx_overrun_ack <= gmii_rx_overrun_ack_flash_sdram_controller when (select_one_gbe_data_sel  = '0') else gmii_rx_overrun_ack_ramp_checker;
-    gmii_rx_ack <= gmii_rx_ack_flash_sdram_controller when (select_one_gbe_data_sel  = '0') else gmii_rx_ack_ramp_checker;
-
-    -- MUX BETWEEN FLASH_SDRAM CONTROLLER AND 40GbE Data Streaming on link 1 (Eth 0)
-    xlgmii_rx_valid_flash_sdram_controller(0) <= xlgmii_rx_valid when (select_forty_gbe_data_sel  = '0') else "0000";
-    xlgmii_rx_end_of_frame_flash_sdram_controller(0) <= xlgmii_rx_end_of_frame when (select_forty_gbe_data_sel  = '0') else '0';
-
-    --xlgmii_rx_valid_ramp_checker(0) <= xlgmii_rx_valid when (select_forty_gbe_data_sel  = '1') else "0000";
-    --xlgmii_rx_end_of_frame_ramp_checker(0) <= xlgmii_rx_end_of_frame when (select_forty_gbe_data_sel  = '1') else '0';
-
-    --xlgmii_rx_overrun_ack <= xlgmii_rx_overrun_ack_flash_sdram_controller(0) when (select_forty_gbe_data_sel  = '0') else xlgmii_rx_overrun_ack_ramp_checker(0);
-    --xlgmii_rx_ack <= xlgmii_rx_ack_flash_sdram_controller(0) when (select_forty_gbe_data_sel  = '0') else xlgmii_rx_ack_ramp_checker(0);
-    xlgmii_rx_overrun_ack <= xlgmii_rx_overrun_ack_flash_sdram_controller(0) when (select_forty_gbe_data_sel  = '0') else forty_gbe_rx_overrun_ack;
-    xlgmii_rx_ack <= xlgmii_rx_ack_flash_sdram_controller(0) when (select_forty_gbe_data_sel  = '0') else forty_gbe_rx_ack;
-    --AI End: Added fortygbe config interface
-    
-    --AI: Allows 40GbE configuration using the system clock and normal 40GbE data interfacing using the user clock
-    --fpga_user_sysclk_bufgmux_ctrl : BUFGMUX_CTRL
-    --port map (
-    --    I0 => sys_clk,
-    --    I1 => user_clk,
-    --    S  => select_forty_gbe_data_sel,
-    --    O  => forty_gb_eth_clk);  
-        
-    --AI: Allows 40GbE configuration using the system reset and normal 40GbE data interfacing using the user reset    
-    --forty_gb_eth_rst <= sys_rst when (select_forty_gbe_data_sel  = '0') else user_rst; 
-    
     --AI: 40GbE Yellow Block Reset  or'd with user_rst
     user_40gbe_rst <= forty_gbe_rst or user_fpga_rst;
 
@@ -2476,24 +2569,24 @@ begin
     port map(
         clk => user_clk, --forty_gb_eth_clk,
         rst => user_40gbe_rst,--user_rst, --forty_gb_eth_rst,
-        tx_valid            => xlgmii_tx_valid,
-        tx_end_of_frame     => xlgmii_tx_end_of_frame,
-        tx_data             => xlgmii_tx_data,
-        tx_dest_ip          => xlgmii_tx_dest_ip,
-        tx_dest_port        => xlgmii_tx_dest_port,
-        tx_overflow         => xlgmii_tx_overflow,
-        tx_afull            => xlgmii_tx_afull,
-        rx_valid            => xlgmii_rx_valid,
-        rx_end_of_frame     => xlgmii_rx_end_of_frame,
-        rx_data             => xlgmii_rx_data,
-        rx_source_ip        => xlgmii_rx_source_ip,
-        rx_source_port      => xlgmii_rx_source_port,
-        rx_dest_ip          => xlgmii_rx_dest_ip,
-        rx_dest_port        => xlgmii_rx_dest_port,
-        rx_bad_frame        => xlgmii_rx_bad_frame,
-        rx_overrun          => xlgmii_rx_overrun,
-        rx_overrun_ack      => xlgmii_rx_overrun_ack,
-        rx_ack => xlgmii_rx_ack,
+        tx_valid            => xlgmii_tx_valid_int0,
+        tx_end_of_frame     => xlgmii_tx_end_of_frame_int0,
+        tx_data             => xlgmii_tx_data_int0,
+        tx_dest_ip          => xlgmii_tx_dest_ip_int0,
+        tx_dest_port        => xlgmii_tx_dest_port_int0,
+        tx_overflow         => xlgmii_tx_overflow_int0,
+        tx_afull            => xlgmii_tx_afull_int0,
+        rx_valid            => xlgmii_rx_valid_int0,
+        rx_end_of_frame     => xlgmii_rx_end_of_frame_int0,
+        rx_data             => xlgmii_rx_data_int0,
+        rx_source_ip        => xlgmii_rx_source_ip_int0,
+        rx_source_port      => xlgmii_rx_source_port_int0,
+        rx_dest_ip          => xlgmii_rx_dest_ip_int0,
+        rx_dest_port        => xlgmii_rx_dest_port_int0,
+        rx_bad_frame        => xlgmii_rx_bad_frame_int0,
+        rx_overrun          => xlgmii_rx_overrun_int0,
+        rx_overrun_ack      => xlgmii_rx_overrun_ack_int0,
+        rx_ack              => xlgmii_rx_ack_int0,
         CLK_I => bsp_clk,
         RST_I => bsp_rst,
         DAT_I => WB_SLV_DAT_I(10),
@@ -2504,7 +2597,7 @@ begin
         SEL_I => WB_SLV_SEL_I(10),
         STB_I => WB_SLV_STB_I(10),
         WE_I  => WB_SLV_WE_I(10),
-        xlgmii_txclk    => sys_clk,cpu
+        xlgmii_txclk    => sys_clk,
         xlgmii_txrst    => sys_rst,
         xlgmii_txd      => xlgmii_txd(0),
         xlgmii_txc      => xlgmii_txc(0),
@@ -2570,69 +2663,73 @@ begin
         end if;
     end process;
 
---AI Start: Single 40GbE Core Needed (Other 3 commented out)
+
+    generate_forty_gbe_mac_port1 : if NUM_FORTY_GBES > 1 generate
         -- WISHBONE SLAVE 11 - 40GBE MAC 1
---        ska_forty_gb_eth_1 : ska_forty_gb_eth
---        generic map(
---            FABRIC_MAC     => X"FFFFFFFFFFFF",
---            FABRIC_IP      => X"FFFFFFFF",
---            FABRIC_PORT    => X"FFFF",
---            FABRIC_GATEWAY => X"FF",
---            FABRIC_ENABLE  => '0',
---            TTL                 => X"01",
---            PROMISC_MODE        => 0,
---            RX_CRC_CHK_ENABLE   => 1)
---        port map(
---            clk => sys_clk,
---            rst => sys_rst,
---            tx_valid            => xlgmii_tx_valid(1),
---            tx_end_of_frame     => xlgmii_tx_end_of_frame(1),
---            tx_data             => xlgmii_tx_data(1),
---            tx_dest_ip          => xlgmii_tx_dest_ip(1),
---            tx_dest_port        => xlgmii_tx_dest_port(1),
---            tx_overflow         => xlgmii_tx_overflow(1),
---            tx_afull            => xlgmii_tx_afull(1),
---            rx_valid            => xlgmii_rx_valid(1),
---            rx_end_of_frame     => xlgmii_rx_end_of_frame(1),
---            rx_data             => xlgmii_rx_data(1),
---            rx_source_ip        => xlgmii_rx_source_ip(1),
---            rx_source_port      => xlgmii_rx_source_port(1),
---            rx_bad_frame        => xlgmii_rx_bad_frame(1),
---            rx_overrun          => xlgmii_rx_overrun(1),
---            rx_overrun_ack      => xlgmii_rx_overrun_ack(1),
---            rx_ack => xlgmii_rx_ack(1),
---            CLK_I => sys_clk,
---            RST_I => sys_rst,
---            DAT_I => WB_SLV_DAT_I(11),
---            DAT_O => WB_SLV_DAT_O(11),
---            ACK_O => WB_SLV_ACK_O(11),
---            ADR_I => WB_SLV_ADR_I(11)(13 downto 0),
---            CYC_I => WB_SLV_CYC_I(11),
---            SEL_I => WB_SLV_SEL_I(11),
---            STB_I => WB_SLV_STB_I(11),
---            WE_I  => WB_SLV_WE_I(11),
---            xlgmii_txclk    => sys_clk,
---            xlgmii_txrst    => sys_rst,
---            xlgmii_txd      => xlgmii_txd(1),
---            xlgmii_txc      => xlgmii_txc(1),
---            xlgmii_txled    => xlgmii_txled(1),
---            xlgmii_rxclk    => sys_clk,
---            xlgmii_rxrst    => sys_rst,
---            xlgmii_rxd      => xlgmii_rxd(1),
---            xlgmii_rxc      => xlgmii_rxc(1),
---            xlgmii_rxled    => xlgmii_rxled(1),
---            phy_tx_rst      => qsfp_soft_reset(1),
---            phy_rx_up       => phy_rx_up(1),
---            src_ip_address      => xlgmii_src_ip_address(1),
---            src_mac_address     => xlgmii_src_mac_address(1),
---            src_enable          => xlgmii_src_enable(1),
---            src_port            => xlgmii_src_port(1),
---            src_gateway         => xlgmii_src_gateway(1),
---            src_local_mc_recv_ip        => xlgmii_src_local_mc_recv_ip(1),
---            src_local_mc_recv_ip_mask   => xlgmii_src_local_mc_recv_ip_mask(1),
---            debug_out   => open,
---            debug_led   => open);
+        ska_forty_gb_eth_1 : ska_forty_gb_eth
+        generic map(
+            FABRIC_MAC     => X"FFFFFFFFFFFF",
+            FABRIC_IP      => X"FFFFFFFF",
+            FABRIC_PORT    => X"FFFF",
+            FABRIC_NETMASK => X"FFFFFFFF",
+            FABRIC_GATEWAY => X"FF",
+            FABRIC_ENABLE  => '0',
+            TTL                 => X"01",
+            PROMISC_MODE        => 0,
+            RX_CRC_CHK_ENABLE   => 1)
+        port map(
+            clk => sys_clk,
+            rst => sys_rst,
+            tx_valid            => xlgmii_tx_valid_int1,
+            tx_end_of_frame     => xlgmii_tx_end_of_frame_int1,
+            tx_data             => xlgmii_tx_data_int1,
+            tx_dest_ip          => xlgmii_tx_dest_ip_int1,
+            tx_dest_port        => xlgmii_tx_dest_port_int1,
+            tx_overflow         => xlgmii_tx_overflow_int1,
+            tx_afull            => xlgmii_tx_afull_int1,
+            rx_valid            => xlgmii_rx_valid_int1,
+            rx_end_of_frame     => xlgmii_rx_end_of_frame_int1,
+            rx_data             => xlgmii_rx_data_int1,
+            rx_source_ip        => xlgmii_rx_source_ip_int1,
+            rx_source_port      => xlgmii_rx_source_port_int1,
+            rx_bad_frame        => xlgmii_rx_bad_frame_int1,
+            rx_overrun          => xlgmii_rx_overrun_int1,
+            rx_overrun_ack      => xlgmii_rx_overrun_ack_int1,
+            rx_ack              => xlgmii_rx_ack_int1,
+            CLK_I => sys_clk,
+            RST_I => sys_rst,
+            DAT_I => WB_SLV_DAT_I(11),
+            DAT_O => WB_SLV_DAT_O(11),
+            ACK_O => WB_SLV_ACK_O(11),
+            ADR_I => WB_SLV_ADR_I(11)(13 downto 0),
+            CYC_I => WB_SLV_CYC_I(11),
+            SEL_I => WB_SLV_SEL_I(11),
+            STB_I => WB_SLV_STB_I(11),
+            WE_I  => WB_SLV_WE_I(11),
+            xlgmii_txclk    => sys_clk,
+            xlgmii_txrst    => sys_rst,
+            xlgmii_txd      => xlgmii_txd(1),
+            xlgmii_txc      => xlgmii_txc(1),
+            xlgmii_txled    => xlgmii_txled(1),
+            xlgmii_rxclk    => sys_clk,
+            xlgmii_rxrst    => sys_rst,
+            xlgmii_rxd      => xlgmii_rxd(1),
+            xlgmii_rxc      => xlgmii_rxc(1),
+            xlgmii_rxled    => xlgmii_rxled(1),
+            phy_tx_rst      => qsfp_soft_reset(1),
+            phy_rx_up       => phy_rx_up(1),
+            src_ip_address      => xlgmii_src_ip_address(1),
+            src_mac_address     => xlgmii_src_mac_address(1),
+            src_enable          => xlgmii_src_enable(1),
+            src_port            => xlgmii_src_port(1),
+            src_gateway         => xlgmii_src_gateway(1),
+            src_local_mc_recv_ip        => xlgmii_src_local_mc_recv_ip(1),
+            src_local_mc_recv_ip_mask   => xlgmii_src_local_mc_recv_ip_mask(1),
+            debug_out   => open,
+            debug_led   => open);
 --AI End: Single 40GbE Core Needed (Other 3 commented out)
+    end generate generate_forty_gbe_mac_port1;
+
     gen_tx_start_count_1 : process(sys_rst, sys_clk)
     begin
         if (sys_rst = '1')then
@@ -2661,69 +2758,70 @@ begin
         end if;
     end process;
 
---AI Start: Single 40GbE Core Needed (Other 3 commented out)
+    generate_forty_gbe_mac_port2 : if NUM_FORTY_GBES > 2 generate
         -- WISHBONE SLAVE 12 - 40GBE MAC 2
---        ska_forty_gb_eth_2 : ska_forty_gb_eth
---        generic map(
---            FABRIC_MAC     => X"FFFFFFFFFFFF",
---            FABRIC_IP      => X"FFFFFFFF",
---            FABRIC_PORT    => X"FFFF",
---            FABRIC_GATEWAY => X"FF",
---            FABRIC_ENABLE  => '0',
---            TTL                 => X"01",
---            PROMISC_MODE        => 0,
---            RX_CRC_CHK_ENABLE   => 1)
---        port map(
---            clk => sys_clk,
---            rst => sys_rst,
---            tx_valid            => xlgmii_tx_valid(2),
---            tx_end_of_frame     => xlgmii_tx_end_of_frame(2),
---            tx_data             => xlgmii_tx_data(2),
---            tx_dest_ip          => xlgmii_tx_dest_ip(2),
---            tx_dest_port        => xlgmii_tx_dest_port(2),
---            tx_overflow         => xlgmii_tx_overflow(2),
---            tx_afull            => xlgmii_tx_afull(2),
---            rx_valid            => xlgmii_rx_valid(2),
---            rx_end_of_frame     => xlgmii_rx_end_of_frame(2),
---            rx_data             => xlgmii_rx_data(2),
---            rx_source_ip        => xlgmii_rx_source_ip(2),
---            rx_source_port      => xlgmii_rx_source_port(2),
---            rx_bad_frame        => xlgmii_rx_bad_frame(2),
---            rx_overrun          => xlgmii_rx_overrun(2),
---            rx_overrun_ack      => xlgmii_rx_overrun_ack(2),
---            rx_ack => xlgmii_rx_ack(2),
---            CLK_I => sys_clk,
---            RST_I => sys_rst,
---            DAT_I => WB_SLV_DAT_I(12),
---            DAT_O => WB_SLV_DAT_O(12),
---            ACK_O => WB_SLV_ACK_O(12),
---            ADR_I => WB_SLV_ADR_I(12)(13 downto 0),
---            CYC_I => WB_SLV_CYC_I(12),
---            SEL_I => WB_SLV_SEL_I(12),
---            STB_I => WB_SLV_STB_I(12),
---            WE_I  => WB_SLV_WE_I(12),
---            xlgmii_txclk    => sys_clk,
---            xlgmii_txrst    => sys_rst,
---            xlgmii_txd      => xlgmii_txd(2),
---            xlgmii_txc      => xlgmii_txc(2),
---            xlgmii_txled    => xlgmii_txled(2),
---            xlgmii_rxclk    => sys_clk,
---            xlgmii_rxrst    => sys_rst,
---            xlgmii_rxd      => xlgmii_rxd(2),
---            xlgmii_rxc      => xlgmii_rxc(2),
---            xlgmii_rxled    => xlgmii_rxled(2),
---            phy_tx_rst      => qsfp_soft_reset(2),
---            phy_rx_up       => phy_rx_up(2),
---            src_ip_address      => xlgmii_src_ip_address(2),
---            src_mac_address     => xlgmii_src_mac_address(2),
---            src_enable          => xlgmii_src_enable(2),
---            src_port            => xlgmii_src_port(2),
---            src_gateway         => xlgmii_src_gateway(2),
---            src_local_mc_recv_ip        => xlgmii_src_local_mc_recv_ip(2),
---            src_local_mc_recv_ip_mask   => xlgmii_src_local_mc_recv_ip_mask(2),
---            debug_out   => open,
---            debug_led   => open);
---AI End: Single 40GbE Core Needed (Other 3 commented out)
+        ska_forty_gb_eth_2 : ska_forty_gb_eth
+        generic map(
+            FABRIC_MAC     => X"FFFFFFFFFFFF",
+            FABRIC_IP      => X"FFFFFFFF",
+            FABRIC_NETMASK => X"FFFFFFFF",
+            FABRIC_PORT    => X"FFFF",
+            FABRIC_GATEWAY => X"FF",
+            FABRIC_ENABLE  => '0',
+            TTL                 => X"01",
+            PROMISC_MODE        => 0,
+            RX_CRC_CHK_ENABLE   => 1)
+        port map(
+            clk => sys_clk,
+            rst => sys_rst,
+            tx_valid            => xlgmii_tx_valid_int2,
+            tx_end_of_frame     => xlgmii_tx_end_of_frame_int2,
+            tx_data             => xlgmii_tx_data_int2,
+            tx_dest_ip          => xlgmii_tx_dest_ip_int2,
+            tx_dest_port        => xlgmii_tx_dest_port_int2,
+            tx_overflow         => xlgmii_tx_overflow_int2,
+            tx_afull            => xlgmii_tx_afull_int2,
+            rx_valid            => xlgmii_rx_valid_int2,
+            rx_end_of_frame     => xlgmii_rx_end_of_frame_int2,
+            rx_data             => xlgmii_rx_data_int2,
+            rx_source_ip        => xlgmii_rx_source_ip_int2,
+            rx_source_port      => xlgmii_rx_source_port_int2,
+            rx_bad_frame        => xlgmii_rx_bad_frame_int2,
+            rx_overrun          => xlgmii_rx_overrun_int2,
+            rx_overrun_ack      => xlgmii_rx_overrun_ack_int2,
+            rx_ack              => xlgmii_rx_ack_int2,
+            CLK_I => sys_clk,
+            RST_I => sys_rst,
+            DAT_I => WB_SLV_DAT_I(12),
+            DAT_O => WB_SLV_DAT_O(12),
+            ACK_O => WB_SLV_ACK_O(12),
+            ADR_I => WB_SLV_ADR_I(12)(13 downto 0),
+            CYC_I => WB_SLV_CYC_I(12),
+            SEL_I => WB_SLV_SEL_I(12),
+            STB_I => WB_SLV_STB_I(12),
+            WE_I  => WB_SLV_WE_I(12),
+            xlgmii_txclk    => sys_clk,
+            xlgmii_txrst    => sys_rst,
+            xlgmii_txd      => xlgmii_txd(2),
+            xlgmii_txc      => xlgmii_txc(2),
+            xlgmii_txled    => xlgmii_txled(2),
+            xlgmii_rxclk    => sys_clk,
+            xlgmii_rxrst    => sys_rst,
+            xlgmii_rxd      => xlgmii_rxd(2),
+            xlgmii_rxc      => xlgmii_rxc(2),
+            xlgmii_rxled    => xlgmii_rxled(2),
+            phy_tx_rst      => qsfp_soft_reset(2),
+            phy_rx_up       => phy_rx_up(2),
+            src_ip_address      => xlgmii_src_ip_address(2),
+            src_mac_address     => xlgmii_src_mac_address(2),
+            src_enable          => xlgmii_src_enable(2),
+            src_port            => xlgmii_src_port(2),
+            src_gateway         => xlgmii_src_gateway(2),
+            src_local_mc_recv_ip        => xlgmii_src_local_mc_recv_ip(2),
+            src_local_mc_recv_ip_mask   => xlgmii_src_local_mc_recv_ip_mask(2),
+            debug_out   => open,
+            debug_led   => open);
+    end generate generate_forty_gbe_mac_port2;
 
     gen_tx_start_count_2 : process(sys_rst, sys_clk)
     begin
@@ -2753,69 +2851,70 @@ begin
         end if;
     end process;
     
---AI Start: Single 40GbE Core Needed (Other 3 commented out)
+    generate_forty_gbe_mac_port3 : if NUM_FORTY_GBES > 3 generate
         -- WISHBONE SLAVE 13 - 40GBE MAC 3
---        ska_forty_gb_eth_3 : ska_forty_gb_eth
---        generic map(
---            FABRIC_MAC     => X"FFFFFFFFFFFF",
---            FABRIC_IP      => X"FFFFFFFF",
---            FABRIC_PORT    => X"FFFF",
---            FABRIC_GATEWAY => X"FF",
---            FABRIC_ENABLE  => '0',
---            TTL                 => X"01",
---            PROMISC_MODE        => 0,
---            RX_CRC_CHK_ENABLE   => 1)
---        port map(
---            clk => sys_clk,
---            rst => sys_rst,
---            tx_valid            => xlgmii_tx_valid(3),
---            tx_end_of_frame     => xlgmii_tx_end_of_frame(3),
---            tx_data             => xlgmii_tx_data(3),
---            tx_dest_ip          => xlgmii_tx_dest_ip(3),
---            tx_dest_port        => xlgmii_tx_dest_port(3),
---            tx_overflow         => xlgmii_tx_overflow(3),
---            tx_afull            => xlgmii_tx_afull(3),
---            rx_valid            => xlgmii_rx_valid(3),
---            rx_end_of_frame     => xlgmii_rx_end_of_frame(3),
---            rx_data             => xlgmii_rx_data(3),
---            rx_source_ip        => xlgmii_rx_source_ip(3),
---            rx_source_port      => xlgmii_rx_source_port(3),
---            rx_bad_frame        => xlgmii_rx_bad_frame(3),
---            rx_overrun          => xlgmii_rx_overrun(3),
---            rx_overrun_ack      => xlgmii_rx_overrun_ack(3),
---            rx_ack => xlgmii_rx_ack(3),
---            CLK_I => sys_clk,
---            RST_I => sys_rst,
---            DAT_I => WB_SLV_DAT_I(13),
---            DAT_O => WB_SLV_DAT_O(13),
---            ACK_O => WB_SLV_ACK_O(13),
---            ADR_I => WB_SLV_ADR_I(13)(13 downto 0),
---            CYC_I => WB_SLV_CYC_I(13),
---            SEL_I => WB_SLV_SEL_I(13),
---            STB_I => WB_SLV_STB_I(13),
---            WE_I  => WB_SLV_WE_I(13),
---            xlgmii_txclk    => sys_clk,
---            xlgmii_txrst    => sys_rst,
---            xlgmii_txd      => xlgmii_txd(3),
---            xlgmii_txc      => xlgmii_txc(3),
---            xlgmii_txled    => xlgmii_txled(3),
---            xlgmii_rxclk    => sys_clk,
---            xlgmii_rxrst    => sys_rst,
---            xlgmii_rxd      => xlgmii_rxd(3),
---            xlgmii_rxc      => xlgmii_rxc(3),
---            xlgmii_rxled    => xlgmii_rxled(3),
---            phy_tx_rst      => qsfp_soft_reset(3),
---            phy_rx_up       => phy_rx_up(3),
---            src_ip_address      => xlgmii_src_ip_address(3),
---            src_mac_address     => xlgmii_src_mac_address(3),
---            src_enable          => xlgmii_src_enable(3),
---            src_port            => xlgmii_src_port(3),
---            src_gateway         => xlgmii_src_gateway(3),
---            src_local_mc_recv_ip        => xlgmii_src_local_mc_recv_ip(3),
---            src_local_mc_recv_ip_mask   => xlgmii_src_local_mc_recv_ip_mask(3),
---            debug_out   => open,
---            debug_led   => open);
---AI End: Single 40GbE Core Needed (Other 3 commented out)
+        ska_forty_gb_eth_3 : ska_forty_gb_eth
+        generic map(
+            FABRIC_MAC     => X"FFFFFFFFFFFF",
+            FABRIC_IP      => X"FFFFFFFF",
+            FABRIC_NETMASK => X"FFFFFFFF",
+            FABRIC_PORT    => X"FFFF",
+            FABRIC_GATEWAY => X"FF",
+            FABRIC_ENABLE  => '0',
+            TTL                 => X"01",
+            PROMISC_MODE        => 0,
+            RX_CRC_CHK_ENABLE   => 1)
+        port map(
+            clk => sys_clk,
+            rst => sys_rst,
+            tx_valid            => xlgmii_tx_valid_int3,
+            tx_end_of_frame     => xlgmii_tx_end_of_frame_int3,
+            tx_data             => xlgmii_tx_data_int3,
+            tx_dest_ip          => xlgmii_tx_dest_ip_int3,
+            tx_dest_port        => xlgmii_tx_dest_port_int3,
+            tx_overflow         => xlgmii_tx_overflow_int3,
+            tx_afull            => xlgmii_tx_afull_int3,
+            rx_valid            => xlgmii_rx_valid_int3,
+            rx_end_of_frame     => xlgmii_rx_end_of_frame_int3,
+            rx_data             => xlgmii_rx_data_int3,
+            rx_source_ip        => xlgmii_rx_source_ip_int3,
+            rx_source_port      => xlgmii_rx_source_port_int3,
+            rx_bad_frame        => xlgmii_rx_bad_frame_int3,
+            rx_overrun          => xlgmii_rx_overrun_int3,
+            rx_overrun_ack      => xlgmii_rx_overrun_ack_int3,
+            rx_ack              => xlgmii_rx_ack_int3,
+            CLK_I => sys_clk,
+            RST_I => sys_rst,
+            DAT_I => WB_SLV_DAT_I(13),
+            DAT_O => WB_SLV_DAT_O(13),
+            ACK_O => WB_SLV_ACK_O(13),
+            ADR_I => WB_SLV_ADR_I(13)(13 downto 0),
+            CYC_I => WB_SLV_CYC_I(13),
+            SEL_I => WB_SLV_SEL_I(13),
+            STB_I => WB_SLV_STB_I(13),
+            WE_I  => WB_SLV_WE_I(13),
+            xlgmii_txclk    => sys_clk,
+            xlgmii_txrst    => sys_rst,
+            xlgmii_txd      => xlgmii_txd(3),
+            xlgmii_txc      => xlgmii_txc(3),
+            xlgmii_txled    => xlgmii_txled(3),
+            xlgmii_rxclk    => sys_clk,
+            xlgmii_rxrst    => sys_rst,
+            xlgmii_rxd      => xlgmii_rxd(3),
+            xlgmii_rxc      => xlgmii_rxc(3),
+            xlgmii_rxled    => xlgmii_rxled(3),
+            phy_tx_rst      => qsfp_soft_reset(3),
+            phy_rx_up       => phy_rx_up(3),
+            src_ip_address      => xlgmii_src_ip_address(3),
+            src_mac_address     => xlgmii_src_mac_address(3),
+            src_enable          => xlgmii_src_enable(3),
+            src_port            => xlgmii_src_port(3),
+            src_gateway         => xlgmii_src_gateway(3),
+            src_local_mc_recv_ip        => xlgmii_src_local_mc_recv_ip(3),
+            src_local_mc_recv_ip_mask   => xlgmii_src_local_mc_recv_ip_mask(3),
+            debug_out   => open,
+            debug_led   => open);
+    end generate generate_forty_gbe_mac_port3;
 
     gen_tx_start_count_3 : process(sys_rst, sys_clk)
     begin
@@ -3108,71 +3207,76 @@ begin
             TEST_PATTERN_EN_I    => '0',
             TEST_PATTERN_ERROR_O => open
         );
---AI Start: Single 40GbE Core Needed (Other 3 commented out)
---  IEEE802_3_XL_PHY_1 : component IEEE802_3_XL_PHY_top
---      port map(
---          SYS_CLK_I            => sys_clk,
---          SYS_CLK_RST_I        => sys_rst,
---          GTREFCLK_PAD_N_I     => MEZ3_REFCLK_1_N,
---          GTREFCLK_PAD_P_I     => MEZ3_REFCLK_1_P,
---          GTREFCLK_O           => open,
---          TXN_O                => MEZ3_PHY12_LANE_TX_N,
---          TXP_O                => MEZ3_PHY12_LANE_TX_P,
---          RXN_I                => MEZ3_PHY12_LANE_RX_N,
---          RXP_I                => MEZ3_PHY12_LANE_RX_P,
---          SOFT_RESET_I         => qsfp_soft_reset(1),
---          LINK_UP_O            => phy_rx_up(1),
---          XLGMII_X4_TXC_I      => xlgmii_txc(1),
---          XLGMII_X4_TXD_I      => xlgmii_txd(1),
---          XLGMII_X4_RXC_O      => xlgmii_rxc(1),
---          XLGMII_X4_RXD_O      => xlgmii_rxd(1),
---          TEST_PATTERN_EN_I    => '0',
---          TEST_PATTERN_ERROR_O => open
---      );
 
---  IEEE802_3_XL_PHY_2 : component IEEE802_3_XL_PHY_top
---      port map(
---          SYS_CLK_I            => sys_clk,
---          SYS_CLK_RST_I        => sys_rst,
---          GTREFCLK_PAD_N_I     => MEZ3_REFCLK_2_N,
---          GTREFCLK_PAD_P_I     => MEZ3_REFCLK_2_P,
---          GTREFCLK_O           => open,
---          TXN_O                => MEZ3_PHY21_LANE_TX_N,
---          TXP_O                => MEZ3_PHY21_LANE_TX_P,
---          RXN_I                => MEZ3_PHY21_LANE_RX_N,
---          RXP_I                => MEZ3_PHY21_LANE_RX_P,
---          SOFT_RESET_I         => qsfp_soft_reset(2),
---          LINK_UP_O            => phy_rx_up(2),
---          XLGMII_X4_TXC_I      => xlgmii_txc(2),
---          XLGMII_X4_TXD_I      => xlgmii_txd(2),
---          XLGMII_X4_RXC_O      => xlgmii_rxc(2),
---          XLGMII_X4_RXD_O      => xlgmii_rxd(2),
---          TEST_PATTERN_EN_I    => '0',
---          TEST_PATTERN_ERROR_O => open
---      );
+generate_forty_gbe_phy_port1 : if NUM_FORTY_GBES > 1 generate
+  IEEE802_3_XL_PHY_1 : component IEEE802_3_XL_PHY_top
+      port map(
+          SYS_CLK_I            => sys_clk,
+          SYS_CLK_RST_I        => sys_rst,
+          GTREFCLK_PAD_N_I     => MEZ3_REFCLK_1_N,
+          GTREFCLK_PAD_P_I     => MEZ3_REFCLK_1_P,
+          GTREFCLK_O           => open,
+          TXN_O                => MEZ3_PHY12_LANE_TX_N,
+          TXP_O                => MEZ3_PHY12_LANE_TX_P,
+          RXN_I                => MEZ3_PHY12_LANE_RX_N,
+          RXP_I                => MEZ3_PHY12_LANE_RX_P,
+          SOFT_RESET_I         => qsfp_soft_reset(1),
+          LINK_UP_O            => phy_rx_up(1),
+          XLGMII_X4_TXC_I      => xlgmii_txc(1),
+          XLGMII_X4_TXD_I      => xlgmii_txd(1),
+          XLGMII_X4_RXC_O      => xlgmii_rxc(1),
+          XLGMII_X4_RXD_O      => xlgmii_rxd(1),
+          TEST_PATTERN_EN_I    => '0',
+          TEST_PATTERN_ERROR_O => open
+      );
+    end generate generate_forty_gbe_phy_port1;
 
---  IEEE802_3_XL_PHY_3 : component IEEE802_3_XL_PHY_top
---      port map(
---          SYS_CLK_I            => sys_clk,
---          SYS_CLK_RST_I        => sys_rst,
---          GTREFCLK_PAD_N_I     => MEZ3_REFCLK_3_N,
---          GTREFCLK_PAD_P_I     => MEZ3_REFCLK_3_P,
---          GTREFCLK_O           => open,
---          TXN_O                => MEZ3_PHY22_LANE_TX_N,
---          TXP_O                => MEZ3_PHY22_LANE_TX_P,
---          RXN_I                => MEZ3_PHY22_LANE_RX_N,
---          RXP_I                => MEZ3_PHY22_LANE_RX_P,
---          SOFT_RESET_I         => qsfp_soft_reset(3),
---          LINK_UP_O            => phy_rx_up(3),
---          XLGMII_X4_TXC_I      => xlgmii_txc(3),
---          XLGMII_X4_TXD_I      => xlgmii_txd(3),
---          XLGMII_X4_RXC_O      => xlgmii_rxc(3),
---          XLGMII_X4_RXD_O      => xlgmii_rxd(3),
---          TEST_PATTERN_EN_I    => '0',
---          TEST_PATTERN_ERROR_O => open
---      );
---AI End: Single 40GbE Core Needed (Other 3 commented out)
+generate_forty_gbe_phy_port2 : if NUM_FORTY_GBES > 2 generate
 
+  IEEE802_3_XL_PHY_2 : component IEEE802_3_XL_PHY_top
+      port map(
+          SYS_CLK_I            => sys_clk,
+          SYS_CLK_RST_I        => sys_rst,
+          GTREFCLK_PAD_N_I     => MEZ3_REFCLK_2_N,
+          GTREFCLK_PAD_P_I     => MEZ3_REFCLK_2_P,
+          GTREFCLK_O           => open,
+          TXN_O                => MEZ3_PHY21_LANE_TX_N,
+          TXP_O                => MEZ3_PHY21_LANE_TX_P,
+          RXN_I                => MEZ3_PHY21_LANE_RX_N,
+          RXP_I                => MEZ3_PHY21_LANE_RX_P,
+          SOFT_RESET_I         => qsfp_soft_reset(2),
+          LINK_UP_O            => phy_rx_up(2),
+          XLGMII_X4_TXC_I      => xlgmii_txc(2),
+          XLGMII_X4_TXD_I      => xlgmii_txd(2),
+          XLGMII_X4_RXC_O      => xlgmii_rxc(2),
+          XLGMII_X4_RXD_O      => xlgmii_rxd(2),
+          TEST_PATTERN_EN_I    => '0',
+          TEST_PATTERN_ERROR_O => open
+      );
+    end generate generate_forty_gbe_phy_port2;
+
+generate_forty_gbe_phy_port3 : if NUM_FORTY_GBES > 3 generate
+  IEEE802_3_XL_PHY_3 : component IEEE802_3_XL_PHY_top
+      port map(
+          SYS_CLK_I            => sys_clk,
+          SYS_CLK_RST_I        => sys_rst,
+          GTREFCLK_PAD_N_I     => MEZ3_REFCLK_3_N,
+          GTREFCLK_PAD_P_I     => MEZ3_REFCLK_3_P,
+          GTREFCLK_O           => open,
+          TXN_O                => MEZ3_PHY22_LANE_TX_N,
+          TXP_O                => MEZ3_PHY22_LANE_TX_P,
+          RXN_I                => MEZ3_PHY22_LANE_RX_N,
+          RXP_I                => MEZ3_PHY22_LANE_RX_P,
+          SOFT_RESET_I         => qsfp_soft_reset(3),
+          LINK_UP_O            => phy_rx_up(3),
+          XLGMII_X4_TXC_I      => xlgmii_txc(3),
+          XLGMII_X4_TXD_I      => xlgmii_txd(3),
+          XLGMII_X4_RXC_O      => xlgmii_rxc(3),
+          XLGMII_X4_RXD_O      => xlgmii_rxd(3),
+          TEST_PATTERN_EN_I    => '0',
+          TEST_PATTERN_ERROR_O => open
+      );
+    end generate generate_forty_gbe_phy_port3;
 -------------------------------------------------------------------------
 -- CREATE SIGNAL THAT TOGGLES ONCE/SECOND
 -------------------------------------------------------------------------

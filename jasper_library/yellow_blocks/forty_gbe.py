@@ -34,7 +34,7 @@ class forty_gbe(YellowBlock):
         inst.add_parameter('FABRIC_ENABLE',  " 1'b%x"%self.fab_en)
         inst.add_parameter('TTL',            " 8'h%x"%self.ttl)
         inst.add_parameter('PROMISC_MODE',   " 1'b%x"%self.promisc_mode)
-        inst.add_parameter('PORT',           " 2'h%x"%self.port)
+        inst.add_parameter('NUM_FORTY_GBES', " 2'h%x"%self.port)
 
         inst.add_port('user_clk_o', 'sys_clk', dir='out')
         inst.add_port('user_rst_o', 'sys_rst', dir='out')
@@ -228,33 +228,33 @@ class forty_gbe(YellowBlock):
         #inst.add_port('AUX_SYNCO_N', 'AUX_SYNCO_N', parent_port=True, dir='out')
 
         inst.add_port('EMCCLK_FIX', 'EMCCLK_FIX', parent_port=True, dir='out')
- 
+
         #Add fortygbe ports depending upon number of ports initialized in yellow block
         inst.add_port('forty_gbe_rst',             self.fullname+'_rst',             width=1,   dir='in')
         for i in range(self.port):
-            cur_port = str(i+1)
-            inst.add_port('forty_gbe_tx_valid'+cur_port,        self.fullname+'_tx_valid'+cur_port,        width=4,   dir='in')
-            inst.add_port('forty_gbe_tx_end_of_frame'+cur_port, self.fullname+'_tx_end_of_frame'+cur_port, width=1,   dir='in')
-            inst.add_port('forty_gbe_tx_data'+cur_port,         self.fullname+'_tx_data'+cur_port,         width=256, dir='in')
-            inst.add_port('forty_gbe_tx_dest_ip'+cur_port,      self.fullname+'_tx_dest_ip'+cur_port,      width=32,  dir='in')
-            inst.add_port('forty_gbe_tx_dest_port'+cur_port,    self.fullname+'_tx_dest_port'+cur_port,    width=16,  dir='in')
-            inst.add_port('forty_gbe_tx_overflow'+cur_port,     self.fullname+'_tx_overflow'+cur_port,     width=1,   dir='out')
-            inst.add_port('forty_gbe_tx_afull'+cur_port,        self.fullname+'_tx_afull'+cur_port,        width=1,   dir='out')
-            inst.add_port('forty_gbe_rx_valid'+cur_port,        self.fullname+'_rx_valid'+cur_port,        width=4,   dir='out')
-            inst.add_port('forty_gbe_rx_end_of_frame'+cur_port, self.fullname+'_rx_end_of_frame'+cur_port, width=1,   dir='out')
-            inst.add_port('forty_gbe_rx_data'+cur_port,         self.fullname+'_rx_data'+cur_port,         width=256, dir='out')
-            inst.add_port('forty_gbe_rx_source_ip'+cur_port,    self.fullname+'_rx_source_ip'+cur_port,    width=32,  dir='out')
-            inst.add_port('forty_gbe_rx_dest_ip'+cur_port,      self.fullname+'_rx_dest_ip'+cur_port,      width=32,  dir='out')
-            inst.add_port('forty_gbe_rx_source_port'+cur_port,  self.fullname+'_rx_source_port'+cur_port,  width=16,  dir='out')
-            inst.add_port('forty_gbe_rx_dest_port'+cur_port,    self.fullname+'_rx_dest_port'+cur_port,    width=16,  dir='out')
-            inst.add_port('forty_gbe_rx_bad_frame'+cur_port,    self.fullname+'_rx_bad_frame'+cur_port,    width=1,   dir='out')
-            inst.add_port('forty_gbe_rx_overrun'+cur_port,      self.fullname+'_rx_overrun'+cur_port,      width=1,   dir='out')
-            inst.add_port('forty_gbe_rx_overrun_ack'+cur_port,  self.fullname+'_rx_overrun_ack'+cur_port,  width=1,   dir='in')
-            inst.add_port('forty_gbe_rx_ack'+cur_port,          self.fullname+'_rx_ack'+cur_port,          width=1,   dir='in')
+            cur_port = str(i)
+            inst.add_port('forty_gbe_tx_valid_int'+cur_port,        self.fullname+'_tx_valid'+cur_port,        width=4,   dir='in')
+            inst.add_port('forty_gbe_tx_end_of_frame_int'+cur_port, self.fullname+'_tx_end_of_frame'+cur_port, width=1,   dir='in')
+            inst.add_port('forty_gbe_tx_data_int'+cur_port,         self.fullname+'_tx_data'+cur_port,         width=256, dir='in')
+            inst.add_port('forty_gbe_tx_dest_ip_int'+cur_port,      self.fullname+'_tx_dest_ip'+cur_port,      width=32,  dir='in')
+            inst.add_port('forty_gbe_tx_dest_port_int'+cur_port,    self.fullname+'_tx_dest_port'+cur_port,    width=16,  dir='in')
+            inst.add_port('forty_gbe_tx_overflow_int'+cur_port,     self.fullname+'_tx_overflow'+cur_port,     width=1,   dir='out')
+            inst.add_port('forty_gbe_tx_afull_int'+cur_port,        self.fullname+'_tx_afull'+cur_port,        width=1,   dir='out')
+            inst.add_port('forty_gbe_rx_valid_int'+cur_port,        self.fullname+'_rx_valid'+cur_port,        width=4,   dir='out')
+            inst.add_port('forty_gbe_rx_end_of_frame_int'+cur_port, self.fullname+'_rx_end_of_frame'+cur_port, width=1,   dir='out')
+            inst.add_port('forty_gbe_rx_data_int'+cur_port,         self.fullname+'_rx_data'+cur_port,         width=256, dir='out')
+            inst.add_port('forty_gbe_rx_source_ip_int'+cur_port,    self.fullname+'_rx_source_ip'+cur_port,    width=32,  dir='out')
+            inst.add_port('forty_gbe_rx_dest_ip_int'+cur_port,      self.fullname+'_rx_dest_ip'+cur_port,      width=32,  dir='out')
+            inst.add_port('forty_gbe_rx_source_port_int'+cur_port,  self.fullname+'_rx_source_port'+cur_port,  width=16,  dir='out')
+            inst.add_port('forty_gbe_rx_dest_port_int'+cur_port,    self.fullname+'_rx_dest_port'+cur_port,    width=16,  dir='out')
+            inst.add_port('forty_gbe_rx_bad_frame_int'+cur_port,    self.fullname+'_rx_bad_frame'+cur_port,    width=1,   dir='out')
+            inst.add_port('forty_gbe_rx_overrun_int'+cur_port,      self.fullname+'_rx_overrun'+cur_port,      width=1,   dir='out')
+            inst.add_port('forty_gbe_rx_overrun_ack_int'+cur_port,  self.fullname+'_rx_overrun_ack'+cur_port,  width=1,   dir='in')
+            inst.add_port('forty_gbe_rx_ack_int'+cur_port,          self.fullname+'_rx_ack'+cur_port,          width=1,   dir='in')
 
-            inst.add_port('forty_gbe_led_rx'+cur_port,          self.fullname+'_led_rx'+cur_port,          width=1,  dir='out')
-            inst.add_port('forty_gbe_led_tx'+cur_port,          self.fullname+'_led_tx'+cur_port,          width=1,  dir='out')
-            inst.add_port('forty_gbe_led_up'+cur_port,          self.fullname+'_led_up'+cur_port,          width=1,  dir='out')
+        inst.add_port('forty_gbe_led_rx',          self.fullname+'_led_rx_int1',          width=1,  dir='out')
+        inst.add_port('forty_gbe_led_tx',          self.fullname+'_led_tx_int1',          width=1,  dir='out')
+        inst.add_port('forty_gbe_led_up',          self.fullname+'_led_up_int1',          width=1,  dir='out')
 
         inst.add_port('WB_SLV_CLK_I_top', 'wb_clk_i',  width=0,  dir='out')
         inst.add_port('WB_SLV_RST_I_top', 'wb_rst_i',  width=0,  dir='out')
@@ -270,7 +270,7 @@ class forty_gbe(YellowBlock):
         # Need to add ports to tie GPIO control for SKARAB FrontPanelStatus LEDs
         inst.add_port('dsp_leds_i',       'dsp_leds_i', width=8, dir='in', parent_sig=True)
         inst.add_port('fpga_leds_o',      'FPGA_LEDS', width=8, dir='out', parent_port=True)
-        
+
         #inst.add_port('fabric_clk_270', 'adc0_clk270')
         #top.add_signal('adc0_clk')
 
@@ -379,12 +379,12 @@ class forty_gbe(YellowBlock):
         cons.append(PortConstraint('FPGA_EMCCLK2', 'FPGA_EMCCLK2'))
         cons.append(PortConstraint('MEZ3_REFCLK_0_P','MEZ3_REFCLK_0_P'))
         cons.append(PortConstraint('MEZ3_REFCLK_0_N','MEZ3_REFCLK_0_N'))
-        cons.append(PortConstraint('MEZ3_REFCLK_1_P','MEZ3_REFCLK_0_P'))
-        cons.append(PortConstraint('MEZ3_REFCLK_1_N','MEZ3_REFCLK_0_N'))
-        cons.append(PortConstraint('MEZ3_REFCLK_2_P','MEZ3_REFCLK_0_P'))
-        cons.append(PortConstraint('MEZ3_REFCLK_2_N','MEZ3_REFCLK_0_N'))
-        cons.append(PortConstraint('MEZ3_REFCLK_3_P','MEZ3_REFCLK_0_P'))
-        cons.append(PortConstraint('MEZ3_REFCLK_3_N','MEZ3_REFCLK_0_N'))
+        cons.append(PortConstraint('MEZ3_REFCLK_1_P','MEZ3_REFCLK_1_P'))
+        cons.append(PortConstraint('MEZ3_REFCLK_1_N','MEZ3_REFCLK_1_N'))
+        cons.append(PortConstraint('MEZ3_REFCLK_2_P','MEZ3_REFCLK_2_P'))
+        cons.append(PortConstraint('MEZ3_REFCLK_2_N','MEZ3_REFCLK_2_N'))
+        cons.append(PortConstraint('MEZ3_REFCLK_3_P','MEZ3_REFCLK_3_P'))
+        cons.append(PortConstraint('MEZ3_REFCLK_3_N','MEZ3_REFCLK_3_N'))
         cons.append(PortConstraint('MEZZANINE_3_ONE_WIRE_STRONG_PULLUP_EN_N','MEZZANINE_3_ONE_WIRE_STRONG_PULLUP_EN_N'))
         cons.append(PortConstraint('MEZZANINE_2_ONE_WIRE_STRONG_PULLUP_EN_N','MEZZANINE_2_ONE_WIRE_STRONG_PULLUP_EN_N'))
         cons.append(PortConstraint('MEZZANINE_1_ONE_WIRE_STRONG_PULLUP_EN_N','MEZZANINE_1_ONE_WIRE_STRONG_PULLUP_EN_N'))
@@ -500,7 +500,7 @@ class forty_gbe(YellowBlock):
         cons.append(ClockConstraint(name='VIRTUAL_clkout0', period=8.0, port_en=False, virtual_en=True, waveform_min=0.0, waveform_max=4.0))
         cons.append(ClockConstraint(name='VIRTUAL_clkout0_1', period=6.4, port_en=False, virtual_en=True, waveform_min=0.0, waveform_max=3.2))
         cons.append(ClockConstraint(name='virtual_clock', period=6.4, port_en=False, virtual_en=True, waveform_min=0.0, waveform_max=3.2))
-        cons.append(ClockConstraint(name='VIRTUAL_I', period=periodparam[3], port_en=False, virtual_en=True, waveform_min=0.0, waveform_max=periodparam[4]))     
+        cons.append(ClockConstraint(name='VIRTUAL_I', period=periodparam[3], port_en=False, virtual_en=True, waveform_min=0.0, waveform_max=periodparam[4]))
 
         #Generate Clock Constraints
         cons.append(GenClockConstraint(signal='%s/wishbone_flash_sdram_interface_0/icape_controller_0/icape_clk_count_reg[3]/Q' % self.fullname, name='%s/wishbone_flash_sdram_interface_0/icape_controller_0/CLK' % self.fullname, divide_by=16, clock_source='%s/wishbone_flash_sdram_interface_0/icape_controller_0/icape_clk_count_reg[3]/C' % self.fullname))
@@ -1156,7 +1156,7 @@ class forty_gbe(YellowBlock):
         cons.append(RawConstraint('set_property OFFCHIP_TERM NONE [get_ports FPGA_LEDS[4]]'))
         cons.append(RawConstraint('set_property OFFCHIP_TERM NONE [get_ports FPGA_LEDS[5]]'))
         cons.append(RawConstraint('set_property OFFCHIP_TERM NONE [get_ports FPGA_LEDS[6]]'))
-        cons.append(RawConstraint('set_property OFFCHIP_TERM NONE [get_ports FPGA_LEDS[7]]'))        
+        cons.append(RawConstraint('set_property OFFCHIP_TERM NONE [get_ports FPGA_LEDS[7]]'))
 
         return cons
 
